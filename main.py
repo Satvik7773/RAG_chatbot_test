@@ -37,7 +37,6 @@ class ChatBot:
                     continue
                 docs.extend(loader.load())
 
-        # Fallback to bundled horoscope if nothing loaded
         if not docs:
             docs = [
                 Document(page_content="Aries: You will have good luck today. The stars align in your favor for success.", metadata={"sign": "aries"}),
@@ -45,7 +44,6 @@ class ChatBot:
                 Document(page_content="Gemini: Communication is key today. Reach out to loved ones and express your feelings.", metadata={"sign": "gemini"})
             ]
 
-        # Split into manageable chunks
         splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=50, separator="\n")
         split_docs = splitter.split_documents(docs)
 
@@ -76,7 +74,6 @@ Question: {question}
 Answer:"""
         self.prompt = PromptTemplate(template=template, input_variables=["context", "question"])
 
-        # 7) Build the RAG chain
         self.rag_chain = (
             {"context": self.docsearch.as_retriever(), "question": RunnablePassthrough()}
             | self.prompt
@@ -88,7 +85,6 @@ Answer:"""
         try:
             raw = self.rag_chain.invoke(user_question)
         except Exception:
-            # Fallback manual retrieval
             docs = self.docsearch.similarity_search(user_question, k=3)
             context = "\n".join([d.page_content for d in docs])
             formatted = self.prompt.format(context=context, question=user_question)
