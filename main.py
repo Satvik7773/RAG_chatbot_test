@@ -38,13 +38,6 @@ class ChatBot:
                     continue
                 docs.extend(loader.load())
 
-        if not docs:
-            docs = [
-                Document(page_content="Aries: You will have good luck today. The stars align in your favor for success.", metadata={"sign": "aries"}),
-                Document(page_content="Taurus: Be patient today. Good things come to those who wait. Your persistence will pay off.", metadata={"sign": "taurus"}),
-                Document(page_content="Gemini: Communication is key today. Reach out to loved ones and express your feelings.", metadata={"sign": "gemini"})
-            ]
-
         splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=50, separator="\n")
         split_docs = splitter.split_documents(docs)
 
@@ -62,10 +55,10 @@ class ChatBot:
 
         # 6) Prompt template
         template = """
-You are a fortune teller. These Humans will ask you questions about their life.
+You are a intelligent doucment teller. These Humans will ask you questions about the documents they uploaded.
 Use the following piece of context to answer the question.
 If you don't know the answer, just say you don't know.
-Keep the answer within 2 sentences.
+Keep the answer within 10 sentences and make it concise.
 Return ONLY the two‐sentence answer.
 
 Context:
