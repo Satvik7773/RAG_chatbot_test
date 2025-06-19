@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-const API=import.meta.env.VITE_API
+import { GoogleLogin } from '@react-oauth/google';
+import ChatWindow from './ChatWindow.jsx';
 const LoginApp = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -20,6 +21,8 @@ const LoginApp = () => {
     if (savedTheme === 'dark') {
       setIsDarkMode(true);
     }
+      const savedUser = localStorage.getItem('user');
+  if (savedUser) setUser(JSON.parse(savedUser));
   }, []);
 
   const toggleTheme = () => {
@@ -69,6 +72,8 @@ const LoginApp = () => {
     const data = await res.json();
     setUser(data.user);
     setMessage(`Welcome ${isLogin ? 'back' : 'aboard'}! 🎉`);
+      localStorage.setItem('user', JSON.stringify(data.user));
+
     setFormData({ username: '', email: '', password: '' });
   } catch (err) {
     setMessage(err.message);
@@ -81,7 +86,59 @@ const LoginApp = () => {
   const handleLogout = () => {
     setUser(null);
     setMessage('See you later! 👋');
+    localStorage.removeItem('user');
   };
+   
+ const handleGoogleSuccess = async (credentialResponse) => {
+  setIsLoading(true);
+
+  try {
+    console.log('Posting to:', `api/auth/google`);
+    console.log('ID Token:', credentialResponse.credential);
+
+
+    const response = await fetch(`api/auth/google`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idToken: credentialResponse.credential }),
+    });
+
+    const text = await response.text();
+    console.log('[Google /google] status:', response.status);
+    console.log('[Google /google] body:', text);
+
+    let parsed;
+    try {
+      parsed = JSON.parse(text);
+    } catch (_err) {
+      parsed = null;
+    }
+
+    if (!response.ok) {
+      const errMsg = (parsed && parsed.message)
+        ? parsed.message
+        : `HTTP ${response.status}`;
+      throw new Error(`Google login failed: ${errMsg}`);
+    }
+
+    const data = parsed; 
+    setUser(data.user);
+      localStorage.setItem('user', JSON.stringify(data.user));
+    setMessage(`Welcome, ${data.user.username}! 🎉`);
+
+  } catch (err) {
+    console.error(err);
+    setMessage(err.message);
+
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+const handleGoogleError = () => {
+  setMessage('Google sign‑in was cancelled or failed');
+};
+
 
   const switchMode = () => {
     setIsLogin(!isLogin);
@@ -103,101 +160,13 @@ const LoginApp = () => {
 
   if (user) {
     return (
-      <div className={`min-h-screen ${themeClasses} flex items-center justify-center p-4 transition-all duration-500`}>
-        <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          
-          {/* Left Side - RAG Chatbot Info */}
-          <div className="space-y-8 text-center lg:text-left">
-            <div className="space-y-4">
-              <h1 className="text-5xl lg:text-7xl font-black bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 bg-clip-text text-transparent leading-tight">
-                RAG-Based
-                <br />
-                <span className="text-4xl lg:text-6xl">Chatbot 🤖</span>
-              </h1>
-              <p className={`text-xl lg:text-2xl font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
-                Experience the future of AI conversations with our advanced Retrieval-Augmented Generation chatbot.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className={`${cardClasses} p-6 rounded-2xl transform hover:scale-105 transition-all duration-300`}>
-                <div className="text-3xl mb-3">🧠</div>
-                <h3 className="font-bold text-lg mb-2">Smart Retrieval</h3>
-                <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                  Intelligent document search and context understanding
-                </p>
-              </div>
-              
-              <div className={`${cardClasses} p-6 rounded-2xl transform hover:scale-105 transition-all duration-300`}>
-                <div className="text-3xl mb-3">⚡</div>
-                <h3 className="font-bold text-lg mb-2">Real-time</h3>
-                <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                  Lightning-fast responses with accurate information
-                </p>
-              </div>
-              
-              <div className={`${cardClasses} p-6 rounded-2xl transform hover:scale-105 transition-all duration-300`}>
-                <div className="text-3xl mb-3">🎯</div>
-                <h3 className="font-bold text-lg mb-2">Contextual</h3>
-                <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                  Understands context and provides relevant answers
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Side - User Welcome */}
-          <div className={`${cardClasses} rounded-2xl shadow-2xl p-8 w-full max-w-md mx-auto transform transition-all duration-500 hover:scale-105 relative overflow-hidden`}>
-            
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="absolute top-4 right-4 p-2 rounded-full bg-opacity-20 bg-gray-500 hover:bg-opacity-30 transition-all duration-200"
-            >
-              {isDarkMode ? '☀️' : '🌙'}
-            </button>
-
-            <div className="text-center">
-              <div className="relative mb-6">
-                <img
-                  src={user.avatar}
-                  alt="User Avatar"
-                  className="w-20 h-20 rounded-full mx-auto border-4 border-purple-500 shadow-lg animate-pulse"
-                />
-                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-green-500 w-6 h-6 rounded-full border-2 border-white flex items-center justify-center">
-                  <span className="text-xs">✓</span>
-                </div>
-              </div>
-              
-              <h2 className="text-3xl font-bold mb-2 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-                Ready to Chat!
-              </h2>
-              
-              <div className={`${isDarkMode ? 'bg-green-900 border-green-700' : 'bg-green-50 border-green-200'} border rounded-xl p-4 mb-6 transform transition-all duration-300`}>
-                <p className={`${isDarkMode ? 'text-green-300' : 'text-green-800'} font-semibold`}>
-                  👤 {user.username}
-                </p>
-                <p className={`${isDarkMode ? 'text-green-400' : 'text-green-700'}`}>
-                  📧 {user.email}
-                </p>
-              </div>
-              
-              <div className="space-y-3 mb-6">
-                <button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-6 rounded-xl hover:from-purple-700 hover:to-pink-700 transition-all duration-300 font-semibold transform hover:scale-105 shadow-lg">
-                  Start Chatting 💬
-                </button>
-                
-                <button
-                  onClick={handleLogout}
-                  className="w-full bg-gradient-to-r from-gray-500 to-gray-600 text-white py-3 px-6 rounded-xl hover:from-gray-600 hover:to-gray-700 transition-all duration-300 font-semibold transform hover:scale-105 shadow-lg"
-                >
-                  Sign Out 🚪
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+       <ChatWindow
+        user={user}
+        email={formData.email}
+        isDarkMode={isDarkMode}
+        toggleTheme={toggleTheme}
+        handleLogout={handleLogout}
+      />
     );
   }
 
@@ -251,9 +220,7 @@ const LoginApp = () => {
               <h3 className="font-bold text-lg mb-3 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
                 Smart Retrieval
               </h3>
-              <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} leading-relaxed`}>
-                Intelligent document search with semantic understanding and context awareness
-              </p>
+
             </div>
             
             <div className={`${cardClasses} p-6 rounded-2xl transform hover:scale-105 transition-all duration-300 hover:shadow-xl`}>
@@ -261,9 +228,6 @@ const LoginApp = () => {
               <h3 className="font-bold text-lg mb-3 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
                 Lightning Fast
               </h3>
-              <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} leading-relaxed`}>
-                Get instant responses with optimized retrieval and generation pipeline
-              </p>
             </div>
             
             <div className={`${cardClasses} p-6 rounded-2xl transform hover:scale-105 transition-all duration-300 hover:shadow-xl`}>
@@ -271,9 +235,6 @@ const LoginApp = () => {
               <h3 className="font-bold text-lg mb-3 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
                 Contextual AI
               </h3>
-              <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} leading-relaxed`}>
-                Advanced context understanding for more relevant and accurate responses
-              </p>
             </div>
           </div>
         </div>
@@ -406,6 +367,15 @@ const LoginApp = () => {
                   `${isLogin ? 'Sign In' : 'Create Account'} ${isLogin ? '🚀' : '✨'}`
                 )}
               </button>
+               
+                 <div className="flex justify-center mt-4">
+    <GoogleLogin
+      onSuccess={handleGoogleSuccess}
+      onError={handleGoogleError}
+    />
+  </div>
+
+
             </div>
 
             <div className="mt-8 text-center relative z-10">
