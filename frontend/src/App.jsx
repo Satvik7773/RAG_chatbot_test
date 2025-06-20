@@ -124,7 +124,7 @@ const API_BASE = import.meta.env.VITE_API_BASE;
     const data = parsed; 
     setUser(data.user);
       localStorage.setItem('user', JSON.stringify(data.user));
-    setMessage(`Welcome, ${data.user.username}! 🎉`);
+    setMessage(`Welcome, ${data.user.username}! `);
 
   } catch (err) {
     console.error(err);
@@ -216,7 +216,7 @@ const handleGoogleError = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-12">
             <div className={`${cardClasses} p-6 rounded-2xl transform hover:scale-105 transition-all duration-300 hover:shadow-xl`}>
-              <div className="text-4xl mb-4 animate-bounce">🧠</div>
+              <div className="text-4xl mb-4 animate-bounce"></div>
               <h3 className="font-bold text-lg mb-3 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
                 Smart Retrieval
               </h3>
@@ -231,7 +231,7 @@ const handleGoogleError = () => {
             </div>
             
             <div className={`${cardClasses} p-6 rounded-2xl transform hover:scale-105 transition-all duration-300 hover:shadow-xl`}>
-              <div className="text-4xl mb-4 animate-spin" style={{animationDuration: '3s'}}>🎯</div>
+              <div className="text-4xl mb-4 animate-pulse"></div>
               <h3 className="font-bold text-lg mb-3 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
                 Contextual AI
               </h3>
