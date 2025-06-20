@@ -364,7 +364,7 @@ const handleGoogleError = () => {
                     Processing...
                   </div>
                 ) : (
-                  `${isLogin ? 'Sign In' : 'Create Account'} ${isLogin ? ' ' : '✨'}`
+                  `${isLogin ? 'Sign In' : 'Create Account'} ${isLogin ? ' ' : ' '}`
                 )}
               </button>
                
