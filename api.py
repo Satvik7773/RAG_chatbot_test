@@ -15,7 +15,7 @@ app = FastAPI()
 # CORS: adjust origin(s) as needed
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # or ["*"] for dev
+    allow_origins=["*"],  # or ["*"] for dev
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -90,3 +90,6 @@ def logout(user: str = Form(...)):
     """
     _sessions.pop(user, None)
     return JSONResponse(content={"status": "logged_out"})
+@app.get("/")
+async def root():
+    return {"message": "Backend is up and running!"}
