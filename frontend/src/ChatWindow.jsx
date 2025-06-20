@@ -5,7 +5,7 @@ import {
   LogOut, Menu, Home, BarChart3
 } from 'lucide-react';
 
-const API_BASE = 'http://localhost:8000';
+const API_BASE = 'https://rag-chatbot-test-1.onrender.com/';
 
 const ChatWindow = () => {
   // ─── read logged-in user ───────────────────────────────────────────────────
@@ -74,7 +74,7 @@ const handleSendMessage = async () => {
   console.log(inputMessage)
   
   try {
-    const res = await fetch("http://localhost:8000/chat", {
+    const res = await fetch("https://rag-chatbot-test-1.onrender.com//chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -132,7 +132,7 @@ const handleFileUpload = async (files) => {
 
     let uploadRes;
     try {
-      uploadRes = await fetch('http://localhost:8000/upload', {
+      uploadRes = await fetch('https://rag-chatbot-test-1.onrender.com//upload', {
         method: 'POST',
         body: formData,
       });
@@ -225,7 +225,7 @@ const handleFileUpload = async (files) => {
   // ─── 5) sign out ─────────────────────────────────────────────────────────────
   const handleSignOut = async () => {
       try {
-    const res = await fetch("http://localhost:8000/logout", {
+    const res = await fetch("https://rag-chatbot-test-1.onrender.com//logout", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({ user: user.username })
