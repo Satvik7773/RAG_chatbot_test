@@ -74,7 +74,7 @@ const handleSendMessage = async () => {
   console.log(inputMessage)
   
   try {
-    const res = await fetch("https://rag-chatbot-test-1.onrender.com//chat", {
+    const res = await fetch("${API_BASE}/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -132,7 +132,7 @@ const handleFileUpload = async (files) => {
 
     let uploadRes;
     try {
-      uploadRes = await fetch('https://rag-chatbot-test-1.onrender.com//upload', {
+      uploadRes = await fetch('${API_BASE}/upload', {
         method: 'POST',
         body: formData,
       });
@@ -225,7 +225,7 @@ const handleFileUpload = async (files) => {
   // ─── 5) sign out ─────────────────────────────────────────────────────────────
   const handleSignOut = async () => {
       try {
-    const res = await fetch("https://rag-chatbot-test-1.onrender.com//logout", {
+    const res = await fetch("${API_BASE}/logout", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({ user: user.username })
