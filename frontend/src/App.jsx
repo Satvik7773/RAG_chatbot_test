@@ -71,7 +71,7 @@ const API_BASE = import.meta.env.VITE_API_BASE;
 
     const data = await res.json();
     setUser(data.user);
-    setMessage(`Welcome ${isLogin ? 'back' : 'aboard'}! 🎉`);
+    setMessage(`Welcome ${isLogin ? 'back' : 'aboard'}! `);
       localStorage.setItem('user', JSON.stringify(data.user));
 
     setFormData({ username: '', email: '', password: '' });
@@ -85,7 +85,7 @@ const API_BASE = import.meta.env.VITE_API_BASE;
 
   const handleLogout = () => {
     setUser(null);
-    setMessage('See you later! 👋');
+    setMessage('See you later! ');
     localStorage.removeItem('user');
   };
    
@@ -203,13 +203,13 @@ const handleGoogleError = () => {
             
             <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
               <span className={`px-4 py-2 rounded-full text-sm font-semibold ${isDarkMode ? 'bg-purple-900 text-purple-300' : 'bg-purple-100 text-purple-700'}`}>
-                📚 Document Search
+                 Document Search
               </span>
               <span className={`px-4 py-2 rounded-full text-sm font-semibold ${isDarkMode ? 'bg-pink-900 text-pink-300' : 'bg-pink-100 text-pink-700'}`}>
-                🔍 Smart Retrieval
+                Smart Retrieval
               </span>
               <span className={`px-4 py-2 rounded-full text-sm font-semibold ${isDarkMode ? 'bg-indigo-900 text-indigo-300' : 'bg-indigo-100 text-indigo-700'}`}>
-                ⚡ Real-time AI
+                 Real-time AI
               </span>
             </div>
           </div>
@@ -224,7 +224,7 @@ const handleGoogleError = () => {
             </div>
             
             <div className={`${cardClasses} p-6 rounded-2xl transform hover:scale-105 transition-all duration-300 hover:shadow-xl`}>
-              <div className="text-4xl mb-4 animate-pulse">⚡</div>
+              <div className="text-4xl mb-4 animate-pulse"></div>
               <h3 className="font-bold text-lg mb-3 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
                 Lightning Fast
               </h3>
