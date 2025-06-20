@@ -14,7 +14,7 @@ const LoginApp = () => {
   const [message, setMessage] = useState('');
   const [user, setUser] = useState(null);
   const [focusedField, setFocusedField] = useState('');
-
+const API_BASE = import.meta.env.VITE_API_BASE;
   // Load theme preference on mount
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
