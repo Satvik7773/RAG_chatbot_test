@@ -132,7 +132,7 @@ const handleFileUpload = async (files) => {
 
     let uploadRes;
     try {
-      uploadRes = await fetch('${API_BASE}/upload', {
+      uploadRes = await fetch(`${API_BASE}/upload`, {
         method: 'POST',
         body: formData,
       });
