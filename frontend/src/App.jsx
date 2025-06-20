@@ -51,8 +51,8 @@ const API_BASE = import.meta.env.VITE_API_BASE;
 
   try {
     const endpoint = isLogin
-      ? '${API_BASE}/api/auth/login'
-      : '${API_BASE}/api/auth/register';
+      ? `${API_BASE}/api/auth/login`
+      : `${API_BASE}/api/auth/register`;
 
     const payload = isLogin
       ? { email: formData.email, password: formData.password }
