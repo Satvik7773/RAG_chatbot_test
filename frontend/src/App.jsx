@@ -276,7 +276,7 @@ const handleGoogleError = () => {
               } animate-pulse`}>
                 <div className="flex items-center">
                   <span className="mr-2 text-lg">
-                    {message.includes('Welcome') || message.includes('aboard') ? '' : '⚠️'}
+                    {message.includes('Welcome') || message.includes('aboard') ? '' : '⚠'}
                   </span>
                   {message}
                 </div>
@@ -344,7 +344,7 @@ const handleGoogleError = () => {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-lg hover:scale-110 transition-transform duration-200"
                   >
-                    {showPassword ? '🙈' : '👁️'}
+                    {showPassword ? 'SHOW' : 'HIDE'}
                   </button>
                 </div>
               </div>
