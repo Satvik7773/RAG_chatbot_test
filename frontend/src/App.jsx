@@ -306,7 +306,7 @@ const handleGoogleError = () => {
 
               <div className="transform transition-all duration-300">
                 <label className={`block text-sm font-bold mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                  📧 Email Address
+                   Email Address
                 </label>
                 <input
                   type="email"
@@ -344,7 +344,12 @@ const handleGoogleError = () => {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-lg hover:scale-110 transition-transform duration-200"
                   >
-                    {showPassword ? 'SHOW' : 'HIDE'}
+                    {showPassword ? '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+     stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye">
+  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+  <circle cx="12" cy="12" r="3"/>
+</svg>
+' : 'HIDE'}
                   </button>
                 </div>
               </div>
