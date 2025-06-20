@@ -74,7 +74,7 @@ const handleSendMessage = async () => {
   console.log(inputMessage)
   
   try {
-    const res = await fetch("${API_BASE}/chat", {
+    const res = await fetch(`${API_BASE}/chat`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -225,7 +225,7 @@ const handleFileUpload = async (files) => {
   // ─── 5) sign out ─────────────────────────────────────────────────────────────
   const handleSignOut = async () => {
       try {
-    const res = await fetch("${API_BASE}/logout", {
+    const res = await fetch(`${API_BASE}/logout`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({ user: user.username })
