@@ -5,7 +5,7 @@ import {
   LogOut, Menu, Home, BarChart3
 } from 'lucide-react';
 
-const API_BASE = 'https://rag-chatbot-test-1.onrender.com/';
+const API_BASE = 'https://rag-chatbot-test-1.onrender.com';
 
 const ChatWindow = () => {
   // ─── read logged-in user ───────────────────────────────────────────────────
