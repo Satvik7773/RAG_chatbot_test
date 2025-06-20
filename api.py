@@ -13,14 +13,6 @@ from main import ChatBot
 app = FastAPI()
 
 # CORS: adjust origin(s) as needed
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # or ["*"] for dev
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
 # in‑memory user→ChatBot sessions
 _sessions: dict[str, ChatBot] = {}
 
@@ -93,3 +85,13 @@ def logout(user: str = Form(...)):
 @app.get("/")
 async def root():
     return {"message": "Backend is up and running!"}
+    
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or ["*"] for dev
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
