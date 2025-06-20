@@ -276,7 +276,7 @@ const handleGoogleError = () => {
               } animate-pulse`}>
                 <div className="flex items-center">
                   <span className="mr-2 text-lg">
-                    {message.includes('Welcome') || message.includes('aboard') ? '🎉' : '⚠️'}
+                    {message.includes('Welcome') || message.includes('aboard') ? '' : '⚠️'}
                   </span>
                   {message}
                 </div>
@@ -324,7 +324,7 @@ const handleGoogleError = () => {
 
               <div className="transform transition-all duration-300">
                 <label className={`block text-sm font-bold mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                  🔒 Password
+                   Password
                 </label>
                 <div className="relative">
                   <input
@@ -364,7 +364,7 @@ const handleGoogleError = () => {
                     Processing...
                   </div>
                 ) : (
-                  `${isLogin ? 'Sign In' : 'Create Account'} ${isLogin ? '🚀' : '✨'}`
+                  `${isLogin ? 'Sign In' : 'Create Account'} ${isLogin ? ' ' : '✨'}`
                 )}
               </button>
                
