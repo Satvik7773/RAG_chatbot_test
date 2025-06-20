@@ -51,8 +51,8 @@ const API_BASE = import.meta.env.VITE_API_BASE;
 
   try {
     const endpoint = isLogin
-      ? '/api/auth/login'
-      : '/api/auth/register';
+      ? '${API_BASE}/api/auth/login'
+      : '${API_BASE}/api/auth/register';
 
     const payload = isLogin
       ? { email: formData.email, password: formData.password }
@@ -93,11 +93,11 @@ const API_BASE = import.meta.env.VITE_API_BASE;
   setIsLoading(true);
 
   try {
-    console.log('Posting to:', `api/auth/google`);
+    console.log('Posting to:', `${API_BASE}/api/auth/google`);
     console.log('ID Token:', credentialResponse.credential);
 
 
-    const response = await fetch(`api/auth/google`, {
+    const response = await fetch(`${API_BASE}/api/auth/google`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ idToken: credentialResponse.credential }),
