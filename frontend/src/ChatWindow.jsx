@@ -223,33 +223,36 @@ const handleFileUpload = async (files) => {
   };
 
   // ─── 5) sign out ─────────────────────────────────────────────────────────────
-  const handleSignOut = async () => {
-      try {
+const handleSignOut = async () => {
+  try {
+    console.log("Logging out user:", user.username);
+
     const res = await fetch(`${API_BASE}/logout`, {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({ user: user.username })
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({ user: user.username }),
     });
 
     if (!res.ok) {
-      console.error("Logout failed:",await res.text());
+      const errMsg = await res.text();
+      console.error("Logout failed:", errMsg);
       return;
     }
 
-    // Clear everything that might indicate “logged in”
+    // ✅ Clear the localStorage
     localStorage.removeItem("user");
-    // (if you use any other storage)
-    // sessionStorage.clear();
-    // cookies via your auth lib…
+    console.log("User removed:", localStorage.getItem("user")); // Should be null
 
-    // Then force the navigation
+    // ✅ Force navigation to login page
     window.location.href = "/";
   } catch (err) {
     console.error("Logout error:", err);
   }
 
-    console.log('Signing out...');
-  };
+  console.log("Signing out...");
+};
 
   const getFileStatusIcon = (status) => {
     switch (status) {
