@@ -10,7 +10,7 @@ export default defineConfig({
     proxy: {
       // any request that starts with /api will be forwarded to localhost:5000
       '/api': {
-        target: 'http://localhost:5000',
+        target: 'https://rag-chatbot-test-2.onrender.com',
         changeOrigin: true,
         secure: false,
       },
